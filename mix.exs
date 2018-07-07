@@ -8,8 +8,8 @@ defmodule GracefulStop.MixProject do
       elixir: "~> 1.6",
       description: description(),
       package: package(),
-      source_url: "https://github.com/botsqd/graceful_stop",
-      homepage_url: "https://github.com/botsqd/graceful_stop",
+      source_url: "https://github.com/botsquad/graceful_stop",
+      homepage_url: "https://github.com/botsquad/graceful_stop",
       start_permanent: Mix.env() == :prod,
       deps: deps()
     ]

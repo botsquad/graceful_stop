@@ -49,19 +49,19 @@ defmodule GracefulStop.Handler do
   end
 
   def handle_event(:sigterm, state) do
-    spawn_link(fn -> perform_stop(state) end)
+    spawn_link(&perform_stop/0)
     {:ok, %State{state | status: :stopping}}
   end
 
   def handle_info(:resume, state) do
     {:ok, %State{state | status: :running}}
   end
-  def handle_info(message, state) do
+  def handle_info(_message, state) do
     # Logger.info "handle_info: #{inspect message}"
     {:ok, state}
   end
 
-  defp perform_stop(state) do
+  defp perform_stop() do
     Logger.debug("Initiating graceful stop…")
 
     hooks = Application.fetch_env!(:graceful_stop, :hooks)

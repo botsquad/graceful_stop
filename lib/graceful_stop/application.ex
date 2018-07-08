@@ -5,7 +5,7 @@ defmodule GracefulStop.Application do
 
   def start(_type, _args) do
     children = [Handler]
-    opts = [strategy: :one_for_one, name: BotsiWeb.Supervisor]
+    opts = [strategy: :one_for_one, name: GracefulStop.Supervisor]
     Supervisor.start_link(children, opts)
   end
 end

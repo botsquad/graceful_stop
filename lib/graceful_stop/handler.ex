@@ -64,8 +64,8 @@ defmodule GracefulStop.Handler do
   defp perform_stop() do
     Logger.debug("Initiating graceful stop…")
 
-    hooks = Application.fetch_env!(:graceful_stop, :hooks)
-    timeout = Application.fetch_env!(:graceful_stop, :hook_timeout)
+    hooks = Application.get_env(:graceful_stop, :hooks, [])
+    timeout = Application.get_env(:graceful_stop, :hook_timeout, 15_000)
 
     hooks
     |> log_hooks()

@@ -37,6 +37,7 @@ defmodule GracefulStop.HandlerTest do
   test "handler status = :stopping while system is stopping" do
     Application.put_env(:graceful_stop, :hooks, [[__MODULE__, :hook, [:hook1, 50]]])
     Handler.system_stop()
+    Process.sleep 10
     assert :stopping = Handler.get_status()
     assert_receive :hook1
     assert_receive :init_stop

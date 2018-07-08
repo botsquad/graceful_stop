@@ -2,6 +2,7 @@ defmodule GracefulStop.Handler do
   require Logger
 
   @name :erl_signal_server
+  @table Module.concat(__MODULE__, Table)
 
   def child_spec(opts) do
     %{
@@ -25,7 +26,8 @@ defmodule GracefulStop.Handler do
   end
 
   def get_status() do
-    :gen_event.call(@name, __MODULE__, :get_status)
+    [{:status, status}] = :ets.lookup(@table, :status)
+    status
   end
 
   def system_stop() do
@@ -36,25 +38,21 @@ defmodule GracefulStop.Handler do
 
   defmodule State do
     defstruct timeout: nil,
-              hooks: nil,
-              status: :running
+              hooks: nil
   end
 
   def init({_, :ok}) do
-    {:ok, %State{}}
-  end
-
-  def handle_call(:get_status, state) do
-    {:ok, state.status, state}
+    :ets.new(@table, [:named_table, :public, read_concurrency: true])
+    {:ok, %State{} |> set_status(:running)}
   end
 
   def handle_event(:sigterm, state) do
     spawn_link(&perform_stop/0)
-    {:ok, %State{state | status: :stopping}}
+    {:ok, state |> set_status(:stopping)}
   end
 
   def handle_info(:resume, state) do
-    {:ok, %State{state | status: :running}}
+    {:ok, state |> set_status(:running)}
   end
   def handle_info(_message, state) do
     # Logger.info "handle_info: #{inspect message}"
@@ -92,6 +90,12 @@ defmodule GracefulStop.Handler do
         Task.shutdown(task, :brutal_kill)
       end
     end)
+  end
+
+  defp set_status(state, status) do
+    :ets.delete_all_objects(@table)
+    :ets.insert(@table, {:status, status})
+    state
   end
 
   if Mix.env() == :test do

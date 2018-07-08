@@ -24,7 +24,7 @@ defmodule GracefulStop.MixProject do
       files: ["lib", "mix.exs", "*.md", "LICENSE"],
       maintainers: ["Arjan Scherpenisse"],
       licenses: ["MIT"],
-      links: %{"GitHub" => "https://github.com/botsqd/match_engine"}
+      links: %{"GitHub" => "https://github.com/botsquad/graceful_stop"}
     }
   end
 

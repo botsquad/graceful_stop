@@ -50,6 +50,63 @@ can call `GracefulStop.get_status()` which returns either `:running`
 or `:stopping`, and you can create a plug that serves a HTTP 503
 request based on this code.
 
+### Phoenix Plug implementation example
+
+Mount this plug inside your [Phoenix Endpoint](https://hexdocs.pm/phoenix/Phoenix.Endpoint.html) before the router plug is mounted. 
+**DO NOT** mount this plug inside your router file.
+
+```elixir
+defmodule MyAppWeb.Endpoint do
+  use Phoenix.Endpoint, otp_app: :myapp
+
+  ....
+
+  plug MyAppWeb.Plug.TrafficDrain
+  plug MyAppWeb.Router  
+``` 
+
+Reference implementation of `TrafficDrain` plug.
+
+```elixir
+defmodule MyAppWeb.Plug.TrafficDrain do
+  @moduledoc """
+  Plug for handling Kubernetes readinessProbe.
+
+  Plug starts responding with 503 - Service Unavailable from `/__traffic`, when traffic is being drained.
+  Otherwise we respond with 200 - OK.
+  """
+
+  import Plug.Conn
+
+  @behaviour Plug
+
+  @impl true
+  def init(opts), do: opts
+
+  @impl true
+  def call(%Plug.Conn{path_info: ["__traffic"]} = conn, _opts) do
+    case GracefulStop.get_status() do
+      :stopping ->
+        conn
+        |> put_resp_content_type("text/plain")
+        |> send_resp(:service_unavailable, "Draining")
+        |> halt()
+
+      :running ->
+        conn
+        |> put_resp_content_type("text/plain")
+        |> send_resp(:ok, "Serving")
+        |> halt()
+    end
+  end
+
+  @impl true
+  def call(conn, _opts) do
+    conn
+  end
+end
+
+```
 
 
 ## Installation

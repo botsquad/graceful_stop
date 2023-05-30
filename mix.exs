@@ -1,6 +1,9 @@
 defmodule GracefulStop.MixProject do
   use Mix.Project
 
+  @source_url "https://github.com/botsquad/graceful_stop"
+  @version File.read!("VERSION")
+
   def project do
     [
       app: :graceful_stop,
@@ -8,8 +11,8 @@ defmodule GracefulStop.MixProject do
       elixir: "~> 1.6",
       description: description(),
       package: package(),
-      source_url: "https://github.com/botsquad/graceful_stop",
-      homepage_url: "https://github.com/botsquad/graceful_stop",
+      source_url: @source_url,
+      homepage_url: @source_url,
       start_permanent: Mix.env() == :prod,
       deps: deps()
     ]
@@ -21,7 +24,7 @@ defmodule GracefulStop.MixProject do
 
   defp package do
     %{
-      files: ["lib", "mix.exs", "*.md", "LICENSE"],
+      files: ["lib", "mix.exs", "*.md", "LICENSE", "VERSION"],
       maintainers: ["Arjan Scherpenisse"],
       licenses: ["MIT"],
       links: %{"GitHub" => "https://github.com/botsquad/graceful_stop"}

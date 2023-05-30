@@ -4,8 +4,8 @@
 [![Module Version](https://img.shields.io/hexpm/v/decorator.svg)](https://hex.pm/packages/decorator)
 [![Hex Docs](https://img.shields.io/badge/hex-docs-lightgreen.svg)](https://hexdocs.pm/decorator/)
 [![Total Download](https://img.shields.io/hexpm/dt/decorator.svg)](https://hex.pm/packages/decorator)
-[![License](https://img.shields.io/hexpm/l/decorator.svg)](https://github.com/botsquad/graceful_stop/blob/master/LICENSE)
-[![Last Updated](https://img.shields.io/github/last-commit/botsquad/graceful_stop.svg)](https://github.com/botsquad/graceful_stop/commits/master)
+[![License](https://img.shields.io/hexpm/l/decorator.svg)](https://github.com/botsquad/graceful_stop/blob/main/LICENSE)
+[![Last Updated](https://img.shields.io/github/last-commit/botsquad/graceful_stop.svg)](https://github.com/botsquad/graceful_stop/commits/main)
 
 Gracefully calls `:init.stop()` after running user-configured shutdown
 hooks.

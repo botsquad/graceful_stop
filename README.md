@@ -1,5 +1,12 @@
 # GracefulStop
 
+[![Build Status](https://github.com/botsquad/graceful_stop/workflows/test/badge.svg)](https://github.com/botsquad/graceful_stop)
+[![Module Version](https://img.shields.io/hexpm/v/decorator.svg)](https://hex.pm/packages/decorator)
+[![Hex Docs](https://img.shields.io/badge/hex-docs-lightgreen.svg)](https://hexdocs.pm/decorator/)
+[![Total Download](https://img.shields.io/hexpm/dt/decorator.svg)](https://hex.pm/packages/decorator)
+[![License](https://img.shields.io/hexpm/l/decorator.svg)](https://github.com/botsquad/graceful_stop/blob/master/LICENSE)
+[![Last Updated](https://img.shields.io/github/last-commit/botsquad/graceful_stop.svg)](https://github.com/botsquad/graceful_stop/commits/master)
+
 Gracefully calls `:init.stop()` after running user-configured shutdown
 hooks.
 
@@ -17,19 +24,17 @@ running requests to finish, et cetera.
 After adding `:graceful_stop` to your deps, you can configure it to
 call hooks when the application will stop:
 
-
 ```
 config :graceful_stop, :hooks, [
   [IO, :puts, ["Stopping the system"]]
 ]
 ```
 
-
 Then: `kill $(pidof beam.smp)` sends a `SIGTERM` signal to your
 running BEAM process, and you will notice that you see "Stopping the
 system" printed on the console, before it shuts down.
 
-Note that these hooks run *before* any of your OTP applications are
+Note that these hooks run _before_ any of your OTP applications are
 being stopped, so you can do all kinds of things there, without
 worrying that parts of your system are already shut down (which would
 be the case if you try to trap the `{:EXIT, pid, :shutdown}` message).
@@ -37,7 +42,6 @@ be the case if you try to trap the `{:EXIT, pid, :shutdown}` message).
 There is a `:hook_timeout` setting, defaulting to 15 seconds, which is
 the maximum time that a hook can run. Hooks run in parallel, using
 `Task.async` / `Task.yield_many`.
-
 
 ## Inspiration
 
@@ -52,7 +56,7 @@ request based on this code.
 
 ### Phoenix Plug implementation example
 
-Mount this plug inside your [Phoenix Endpoint](https://hexdocs.pm/phoenix/Phoenix.Endpoint.html) before the router plug is mounted. 
+Mount this plug inside your [Phoenix Endpoint](https://hexdocs.pm/phoenix/Phoenix.Endpoint.html) before the router plug is mounted.
 **DO NOT** mount this plug inside your router file.
 
 ```elixir
@@ -62,8 +66,8 @@ defmodule MyAppWeb.Endpoint do
   ....
 
   plug MyAppWeb.Plug.TrafficDrain
-  plug MyAppWeb.Router  
-``` 
+  plug MyAppWeb.Router
+```
 
 Reference implementation of `TrafficDrain` plug.
 
@@ -107,7 +111,6 @@ defmodule MyAppWeb.Plug.TrafficDrain do
 end
 
 ```
-
 
 ## Installation
 

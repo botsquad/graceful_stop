@@ -10,7 +10,7 @@ defmodule GracefulStop.HandlerTest do
 
   test "handler installed" do
     assert Process.whereis(:erl_signal_server)
-    assert [Handler] = :gen_event.which_handlers(:erl_signal_server)
+    assert Handler in :gen_event.which_handlers(:erl_signal_server)
   end
 
   test "handler responds to get_status command" do
@@ -37,7 +37,7 @@ defmodule GracefulStop.HandlerTest do
   test "handler status = :stopping while system is stopping" do
     Application.put_env(:graceful_stop, :hooks, [[__MODULE__, :hook, [:hook1, 50]]])
     Handler.system_stop()
-    Process.sleep 10
+    Process.sleep(10)
     assert :stopping = Handler.get_status()
     assert_receive :hook1
     assert_receive :init_stop

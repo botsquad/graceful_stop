@@ -86,7 +86,7 @@ defmodule GracefulStop.Handler do
   defp kill_slow_hooks(tasks_with_results) do
     Enum.map(tasks_with_results, fn {{task, res}, hook} ->
       if res == nil do
-        Logger.warn("Killing slow shutdown task #{inspect(hook)}")
+        Logger.warning("Killing slow shutdown task #{inspect(hook)}")
         Task.shutdown(task, :brutal_kill)
       end
     end)

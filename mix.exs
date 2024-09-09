@@ -8,7 +8,7 @@ defmodule GracefulStop.MixProject do
     [
       app: :graceful_stop,
       version: @version,
-      elixir: "~> 1.6",
+      elixir: "~> 1.11",
       description: description(),
       package: package(),
       source_url: @source_url,

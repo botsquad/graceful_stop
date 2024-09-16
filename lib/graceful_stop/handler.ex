@@ -51,9 +51,14 @@ defmodule GracefulStop.Handler do
     {:ok, state |> set_status(:stopping)}
   end
 
+  def handle_event(_signal, state) do
+    {:ok, state}
+  end
+
   def handle_info(:resume, state) do
     {:ok, state |> set_status(:running)}
   end
+
   def handle_info(_message, state) do
     # Logger.info "handle_info: #{inspect message}"
     {:ok, state}
